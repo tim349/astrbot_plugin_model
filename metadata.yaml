@@ -1,0 +1,18 @@
+﻿name: astrbot_plugin_gunpla
+display_name: 拼装模型说明书
+desc: 查询高达/寿屋/机娘等拼装模型的新品资讯与日/英/韩说明书链接（Dalong + 寿屋台湾），内置 30 秒超时，查不到直接返回统一话术。
+short_desc: 拼装模型资讯与说明书查询
+version: v1.0.1
+author: ww
+repo: ""
+astrbot_version: ">=4.16,<5"
+support_platforms:
+  - aiocqhttp
+  - telegram
+  - qq_official
+  - discord
+  - lark
+  - dingtalk
+  - wecom
+  - slack
+  - kook

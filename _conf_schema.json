@@ -1,0 +1,48 @@
+{
+  "timeout_seconds": {
+    "description": "单次查询超时（秒）",
+    "type": "int",
+    "default": 30,
+    "slider": { "min": 10, "max": 60, "step": 5 },
+    "hint": "超过这个时间立即返回「没有找到对应的内容…」。建议 30；调大只会让用户等更久，不会提高命中率。"
+  },
+  "max_results": {
+    "description": "说明书结果条数上限",
+    "type": "int",
+    "default": 5,
+    "slider": { "min": 1, "max": 10, "step": 1 },
+    "hint": "一次返回多少条说明书候选。给 LLM 看建议 3～5 条，太多会挤占上下文。"
+  },
+  "news_limit": {
+    "description": "新品/预购资讯条数上限",
+    "type": "int",
+    "default": 8,
+    "slider": { "min": 1, "max": 20, "step": 1 },
+    "hint": "news 工具一次返回多少条新品。"
+  },
+  "default_news_source": {
+    "description": "news 默认数据源",
+    "type": "string",
+    "default": "all",
+    "options": ["all", "koto", "dalong"],
+    "labels": ["全部", "寿屋预购", "Dalong 新品"],
+    "subtitles": [
+      "寿屋预购 + Dalong 最新，覆盖最全",
+      "只看寿屋台湾的预购商品",
+      "只看万代/寿屋全品类新品"
+    ],
+    "hint": "模型未指定 source 时使用。用户问高达相关新品时，插件会优先用 dalong。"
+  },
+  "enable_commands": {
+    "description": "启用 /gunpla 与 /gunpla_news 指令",
+    "type": "bool",
+    "default": true,
+    "hint": "关掉后只保留 LLM 工具调用，不响应斜杠指令（适合不希望用户直接打指令的场景）。"
+  },
+  "not_found_message": {
+    "description": "查不到时的统一回复",
+    "type": "text",
+    "default": "没有找到对应的内容，可能网站还没有搜录，或者更换描述后重试",
+    "hint": "留空则使用内置默认文案。修改后请保持简短，避免每条失败消息都消耗大量 token。"
+  }
+}
