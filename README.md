@@ -3,6 +3,8 @@
 AstrBot 4.x 插件：查询**拼装模型新品/预购**与**日/英/韩说明书链接**（寿屋、高达、机娘）。
 数据源：Dalong + 寿屋台湾。纯标准库，无第三方依赖。
 
+注意：本插件由ai生成，仅用于学习交流，使用该skill造成的不良影响有使用者承担
+
 ## 为什么做成插件（而不是只放 Skill）
 
 Skill 是提示词，模型可以不读；插件注册的是 **LLM Tool**，和「网页搜索」同级。
@@ -26,11 +28,12 @@ ls astrbot_plugin_gunpla/
 
 ## 提供的工具（LLM 自动调用）
 
-| 工具名 | 用途 | 参数 |
-|---|---|---|
-| `gunpla_manual_search` | 按名称查说明书 | `keyword`：中文俗称/日文名/英文名/Dalong 编号 |
-| `gunpla_news` | 新品与预购资讯 | `keyword`（可选）、`source`（all/koto/dalong） |
-| `gunpla_manual_by_dalong_id` | 已知 Dalong 编号直接出链接 | `dalong_id`：`mdv271` 或完整链接 |
+
+| 工具名                       | 用途                       | 参数                                           |
+| ---------------------------- | -------------------------- | ---------------------------------------------- |
+| `gunpla_manual_search`       | 按名称查说明书             | `keyword`：中文俗称/日文名/英文名/Dalong 编号  |
+| `gunpla_news`                | 新品与预购资讯             | `keyword`（可选）、`source`（all/koto/dalong） |
+| `gunpla_manual_by_dalong_id` | 已知 Dalong 编号直接出链接 | `dalong_id`：`mdv271` 或完整链接               |
 
 ## 提供的指令（不经 LLM，方便测试）
 
@@ -51,14 +54,15 @@ ls astrbot_plugin_gunpla/
 
 `_conf_schema.json` 提供以下可调项，保存后写入 `data/config/astrbot_plugin_gunpla_config.json`：
 
-| 配置 | 类型 | 默认 | 说明 |
-|---|---|---|---|
-| `timeout_seconds` | int | 30 | 单次查询超时，范围 10–120；调大不会提高命中率 |
-| `max_results` | int | 5 | 说明书候选条数，范围 1–10 |
-| `news_limit` | int | 8 | 新品/预购条数，范围 1–20 |
-| `default_news_source` | string | `all` | `all` / `koto` / `dalong`，news 未指定 source 时使用 |
-| `enable_commands` | bool | true | 是否响应 `/gunpla`、`/gunpla_news` 指令 |
-| `not_found_message` | text | 内置文案 | 查不到时的统一回复，留空用默认 |
+
+| 配置                  | 类型   | 默认     | 说明                                                 |
+| --------------------- | ------ | -------- | ---------------------------------------------------- |
+| `timeout_seconds`     | int    | 30       | 单次查询超时，范围 10–120；调大不会提高命中率       |
+| `max_results`         | int    | 5        | 说明书候选条数，范围 1–10                           |
+| `news_limit`          | int    | 8        | 新品/预购条数，范围 1–20                            |
+| `default_news_source` | string | `all`    | `all` / `koto` / `dalong`，news 未指定 source 时使用 |
+| `enable_commands`     | bool   | true     | 是否响应`/gunpla`、`/gunpla_news` 指令               |
+| `not_found_message`   | text   | 内置文案 | 查不到时的统一回复，留空用默认                       |
 
 越界值会被夹到合法区间（例如 `timeout_seconds: 1` → 10），不会因为配置写错而崩溃。
 
@@ -89,12 +93,13 @@ gunpla_manual_search 没有返回值，或者已将结果直接发送给用户�
 
 其它可对照的现象：
 
-| 现象 | 含义 |
-|---|---|
-| 日志有 `使用工具：gunpla_manual_search` 但无 `[gunpla] tool=...` | 装的是旧版本（无日志），需要覆盖更新 |
-| 日志完全没有 `gunpla_*` | 插件未启用 / 被其它插件接管了消息 |
-| 模型用 `astrbot_execute_shell` 跑 `gunpla.py` | 工具没给结果，模型在走歪路；不是插件在跑 |
-| 回复里出现「没有收录」而非「没有搜录」 | 模型自己写的，不是插件返回值 |
+
+| 现象                                                            | 含义                                     |
+| --------------------------------------------------------------- | ---------------------------------------- |
+| 日志有`使用工具：gunpla_manual_search` 但无 `[gunpla] tool=...` | 装的是旧版本（无日志），需要覆盖更新     |
+| 日志完全没有`gunpla_*`                                          | 插件未启用 / 被其它插件接管了消息        |
+| 模型用`astrbot_execute_shell` 跑 `gunpla.py`                    | 工具没给结果，模型在走歪路；不是插件在跑 |
+| 回复里出现「没有收录」而非「没有搜录」                          | 模型自己写的，不是插件返回值             |
 
 更新后重载插件，正常应看到：
 
